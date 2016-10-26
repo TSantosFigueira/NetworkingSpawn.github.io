@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+
+<html>
+  <head>
+  <meta charset="UTF-8">
+  <title> Como instanciar objetos através do Unity Networking </title>
+  <style>
+     div {
+          margin-left: 200px;
+          margin-right: 200px;
+      }
+  </style>
+</head>
+
+  <body>
+    <font face="Calibri">
+      <h1 align="center"> Como instanciar objetos através do Unity Networking </h1> 
+    </font>
+
+    <div>
+        
+        <p align="justify" font="Calibri" margin-left=40px> 
+            Quando pensamos em criar um novo objeto dinamicamente por meio do Unity, a função Instantiate é a primeira na qual pensamos. 
+            No entanto, para um jogo multiplayer que faz uso do Unity Networking, através da API de Alto Nível, instanciar um novo 
+            objeto significa que ele deve ser criado em todos os clientes conectados ao servidor e que este objeto estará sob a gerencia do sistema de spawn.  
+            Uma vez administrado por este sistema, atualizações sobre o estado do objeto são enviadas aos clientes quando houver alterações deste no servidor. 
+        </p>
+
+        <p align="justify" font="Calibri">
+            Essencialmente isso significa que tudo é gerido em alto nível, sem a necessidade de codificação. 
+            Porém, para que tudo isto aconteça alguns passos precisam ser observados. 
+            Primeiramente, o objeto precisa de um NetworkIdentity, que é o responsável por sincronizar variáveis 
+            em rede, o transform e estado de movimentação no servidor e no (s) cliente (s). 
+            Desta maneira, os objetos sempre estarão atualizados quando forem criados. 
+        </p>
+        
+        <p align="center"> <img alt="Screenshot 1.jpg" src="http://s14.postimg.org/uik3cl1sh/Screenshot_41.jpg"> </p>
+       
+         <font face="Calibri" >
+          <h3> Parte II </h3>
+        </font>
+
+        <p align="justify" font="Calibri">
+            Em segundo lugar, o objeto pré-fabricado precisa ser adicionado à lista de objetos do gerente de rede, também responsável 
+            pelo sistema de spawn. Como alternativa a este segundo passo, há a função ClienteScene.RegisterPrefab responsável por 
+            atribuir um identificador único ao prefab, visto que é por meio deste valor que o cliente é capaz de gerar o objeto.
+        </p>
+        
+        <p align="center"> <img alt="Screenshot 2.jpg" src="http://s9.postimg.org/bh3y2iwq7/Screenshot_40.jpg"> </p>
+
+        <p align="justify" font="Calibri">
+            Neste exemplo, o usuário iria arrastar um prefab para o alienPrefab para que quando um objeto fosse gerado no servidor, o mesmo fosse criado nos clientes. 
+          registro do objeto garante que ele esteja pronto quando houve a requisição.
+        </p>
+
+        <font face="Calibri" >
+          <h3> Parte III </h3>
+        </font>
+
+        <p align="justify" font="Calibri" >
+            O terceiro passo é o da codificação em si, pois é nele que utilizamos a função NetworkServer.Spawn, como demonstrado abaixo:
+        </p>
+        
+        <p align="center"> <img alt="Screenshot 3.jpg" src="http://s22.postimg.org/z6445l9v5/Screenshot_42.jpg"> </p>
+
+        <p align="justify" font="Calibri">
+            É neste momento que a mágica acontece. Este exemplo, gera um número randômico de folhas em uma árvore. 
+            Ele está associado a um prefab com NetworkIdentity e está registrado como um Spawnable Prefab, conforme ilustração:  
+        </p>
+
+         <p align="center"> <img alt="Screenshot 4.jpg" src="http://s9.postimg.org/9oi1hwffj/Screenshot_43.jpg"> </p>
+
+        <p align="justify" font="Calibri" >
+            Há ainda uma última observação: quando falamos sobre NetworkIdentity e não buscamos criar dinamicamente um objeto que é 
+            controlado por um jogador ou de serventia exclusiva para o servidor, como folhas de uma árvore ou os projetis das armas 
+            dos jogadores não é preciso selecionar nenhuma opção disponível no NetworkIdentity e são elas: Server Only, indicado para 
+            objetos específicos do servidor e Local Player Authority, indicado para objetos controlados clientes. 
+        </p>
+        
+        <p align="justify" font="Calibri" >
+            Esta é somente uma fração daquilo que se pode aprender para jogos multiplayer através da HLAPI e do Unity Networking, 
+            abaixo alguns links que serviram para esse texto e que podem ser úteis para pesquisas futuras: 
+        </p>
+        
+        <ul>
+            <li> <a href="https://docs.unity3d.com/Manual/UNetOverview.html">Unity Docs - Unity Network Overview</a> </li>
+            <li> <a href="https://docs.unity3d.com/Manual/UNetSpawning.html">Unity Docs - Unity Network Spawning</a> </li>
+            <li> <a href="https://docs.unity3d.com/Manual/UNetConcepts.html">Unity Docs - Unity Network Concepts</a> </li>
+            <li> <a href="https://blogs.unity3d.com/2014/05/12/announcing-unet-new-unity-multiplayer-technology/">Unity Blogs - About Unity Network</a> </li>
+        </ul>
+
+    </div>
+  </body>
+</html>
